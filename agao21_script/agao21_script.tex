@@ -1,0 +1,144 @@
+\documentclass[12pt,a4paper,openany]{book}
+\input{defs}
+\input{layout-defs}
+\usepackage{chapterbib}
+
+\newcommand\gap{\text{gap}}
+
+\usepackage{cleveref}
+
+\newcommand{\Zhao}[1]{{\color{red} Zhao: #1}}
+\newcommand{\Hongjie}[1]{{\color{red} Hongjie: #1}}
+\newcommand\symset{S}
+\newcommand\psdset{S_+}
+\newcommand\pdset{S_{++}}
+
+\newcommand\symsetn{\symset^n}
+\newcommand\psdsetn{\psdset^n}
+\newcommand\pdsetn{\pdset^n}
+
+\newcommand{\vcliq}[2]{\textsc{Clique}\!\left({#1,#2}\right)}
+\newcommand{\vstar}[2]{\textsc{Star}\!\left({#1,#2}\right)}
+\newcommand{\vcliqsp}[2]{\textsc{CliqueSample}\!\left({#1,#2}\right)}
+%%% layout and code
+\usepackage[vlined, ruled]{algorithm2e}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+%\usepackage{float}
+\usepackage[ruled,vlined]{algorithm2e}
+\SetKwBlock{Repeat}{repeat}{}
+%%% for this lecture
+% \newtheorem{theorem}{Definition}
+\interfootnotelinepenalty=10000
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+%%% for this lecture
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand\st{~\mathrm{s.t.}~}
+\newcommand\ttau{\boldsymbol{\tau}}
+\newcommand{\df}{\mathrm{d}}
+\def\hcalE{\hat{\mathcal{E}}}
+
+%\allowdisplaybreaks
+
+%for the title
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+%\usepackage[colorinlistoftodos]{todonotes}
+
+%PAGE STYLE
+\pagestyle{plain}
+%\pagenumbering{roman}
+
+%BEGIN DOCUMENT
+\begin{document}
+
+%
+% Front matter
+%
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+{\center
+
+{\Large ETH Zurich}\\[1.5cm]
+\HRule \\[0.4cm]
+{ \huge \bfseries Advanced Graph Algorithms and \\ Optimization}\\[0.4cm] % Title
+\HRule \\[1.5cm]
+
+{\LARGE Rasmus Kyng \& Maximilian Probst}\\[2cm]
+
+
+{\Large Spring 2021}\\[2cm] % Date
+
+%\includegraphics{logo.png}\\[1cm] % Include a department/university logo
+}
+\vfill
+
+
+
+
+\end{titlepage}
+
+These notes will be updated throughout the course.
+They are likely to contain typos, and they may have mistakes or
+lack clarity in places. Feedback and comments are 
+welcome. Please send to kyng@inf.ethz.ch.
+
+\newpage
+
+\tableofcontents
+
+
+
+
+% \part{Introduction}
+
+\label{part:intro}
+\input{lecture1_mod}
+
+\part{Introduction to Convex Optimization}
+\label{part:convex}
+\input{lecture2_mod}
+\input{lecture3_mod}
+
+\bibliographystyle{alpha}
+\bibliography{refs}
+
+\part{Spectral Graph Theory}
+\label{part:sg}
+\input{lecture4_mod}
+\input{lecture5_mod}
+\input{lecture_CheegerAndExpanders}
+% \input{lecture6_mod}
+% \input{lecture7_mod}
+% \input{lecture8_mod}
+% \input{lecture9_mod}
+% \bibliographystyle{alpha}
+% \bibliography{refs}
+
+% \part{Combinatorial Graph Algorithms}
+% \label{part:combinatorial}
+% \input{lecture10_mod}
+% \input{lecture11_mod}
+
+% \part{More Convex Optimization}
+% \label{part:more}
+% \input{lecture12_mod}
+% \input{lecture13_mod}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: luatex
+%%% End:
