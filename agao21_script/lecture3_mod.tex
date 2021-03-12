@@ -993,6 +993,7 @@ Let's start by looking at the change in the upper bound scaled by our
 rate function:
 
 \begin{align}
+  \label{eq:ubgap}
   A_{i+1}U_{i+1} - A_i U_i
   =&
   A_{i+1}\left( f(\yy_{i+1}) - f(\xx_{i+1}) \right)
@@ -1107,7 +1108,7 @@ Given Claim~\ref{clm:lbstep}, we see that
    \frac{a_{i+1}^2}{2\sigma} \norm{ \grad f(\xx_{i+1})}_2^2
    \label{eq:lbgap}
 \end{align}
-This means that by combining Equation~\eqref{eq:gapinit}
+This means that by combining Equation~\eqref{eq:ubgap}
 and~\eqref{eq:lbgap} we get
 \begin{align*}
   \
