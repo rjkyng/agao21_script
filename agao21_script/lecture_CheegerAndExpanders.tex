@@ -59,7 +59,7 @@ In the graded homework, we ask you to make the procedure $\textsc{CertifyOrCut}(
 \[
 \phi(S) = \frac{|E(S, V \setminus S)|}{ \min\{\vol(S), \vol(V \setminus S)\} } = \frac{|E(S, V \setminus S)|}{ \vol(S) } = \frac{\vecone_S^\trp \LL \vecone_S}{\vecone_S^\trp \DD \vecone_S}.
 \]
-To see this, observe that we can rewrite the nominator above using the Laplacian of $G$ as
+To see this, observe that we can rewrite the numerator above using the Laplacian of $G$ as
 \[
 |E(S, V \setminus S)| = \sum_{(u,v)\in E} (\vecone_S(u) - \vecone_S(v))^2 =  \vecone_S^\trp \LL \vecone_S
 \]
@@ -119,7 +119,7 @@ Instead of using $\vecone_S$ directly, we shift $\vecone_S$ by $\vecone$ such th
 
 To conclude the proof, it remains to argue that $\frac{\vecone_S^\trp \LL \vecone_S}{\vecone_S^\trp\DD\vecone_S} \geq \frac{1}{2} \cdot \frac{\zz_S^\trp \LL \zz_S}{\zz_S^\trp\DD\zz_S}$:
 \begin{itemize}
-    \item Nominator: since $\vecone^\trp \LL \vecone = 0$, we have that $\vecone_S^\trp \LL \vecone_S = \zz_S^\trp \LL \zz_S$.
+    \item Numerator: since $\vecone^\trp \LL \vecone = 0$, we have that $\vecone_S^\trp \LL \vecone_S = \zz_S^\trp \LL \zz_S$.
     \item Denominator: observe by straight-forward calculations that \begin{align*}
         \zz_S^\trp\DD\zz_S &= \vol(S) \cdot (1-\alpha)^2 + \vol(V \setminus S) \cdot (-\alpha)^2\\
         &= \vol(S) - 2\vol(S) \cdot \alpha + \vol(V) \cdot \alpha^2\\
