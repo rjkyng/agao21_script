@@ -290,7 +290,7 @@ which is illustrated in Figure \ref{fig:schurclique}.
       \label{fig:schurclique}
     \end{figure}
 In Chapter~\ref{cha:ge}, we proved that $\vcliq{v}{\SS}$ is a graph Laplacian --
-it follows from the proof of Claim~\ref{clm:optimgaussclosed} in that lecture.
+it follows from the proof of Claim~\ref{clm:optimgaussclosed} in that chapter.
 Thus we have that following.
  \begin{claim}
 \label{clm:optimgaussclosedagain}
@@ -442,7 +442,7 @@ We can reduce this to proving that with high probability
  \norm{\LL^{+/2} (\matlow \matlow^{\trp} -  \LL) \LL^{+/2}} \leq 0.5
 \end{equation}
 Ultimately, the proof is going to have a lot in common with our proof
-of Matrix Bernstein in Lecture 8.
+of Matrix Bernstein in Chapter~\ref{cha:randmat}.
 Overall, the lesson there was that when we have a sum of independent,
 zero-mean random matrices, we can show that the sum is likely to have
 small spectral norm if the spectral norm of each random matrix is
@@ -477,7 +477,7 @@ defined by
 \[
   \Phi(\AA) = \LL^{\pinv/2}\AA\LL^{\pinv/2}.
   \]
-We previously saw this in Lectures 7 and 8.
+We previously saw this in Chapter~\ref{cha:randmat}.
 
 \subsection{Martingales}
 
@@ -805,7 +805,9 @@ multi-edge sample is controlled throughout the algorithm.
     &\leq \frac{\ww(j,v)}{\ww(i,v)+\ww(j,v)} R + \frac{\ww(i,v)}{\ww(i,v)+\ww(j,v)} R \\
     &= R
   \end{align*}
-  The first inequality uses the triangle inequality of effective resistance in $\LL$, in that effective resistance is a distance as proved in lecture 6. The second inequality just uses the conditions of this lemma.
+  The first inequality uses the triangle inequality of effective
+  resistance in $\LL$, in that effective resistance is a distance as
+  we proved in Chapter~\ref{cha:pinver}. The second inequality just uses the conditions of this lemma.
 \end{proof}
 \begin{remark}
   Lemma \ref{lem:cliquesample_bounded_norm} only requires that each single multiedge has small norm instead of that the sum of all edges between a pair of vertices have small norm. And this lemma tells us, after sampling, each multiedge in the new graph still satisfies the bounded norm condition.
@@ -878,7 +880,7 @@ As we will see later $K = 200 \log^2 n$ suffices.
 \subsection{Random Matrix Concentration from Trace Exponentials}
 Let us recall how matrix-valued variances come into the picture when
 proving concentration following the strategy from Matrix Bernstein in
-Lecture 8.
+Chapter~\ref{cha:randmat}.
 
 For some matrix-valued random variable $\XX \in \symsetn$,
 we'd like to show $\Pr[ \norm{\XX} \leq 0.5 ]$.
