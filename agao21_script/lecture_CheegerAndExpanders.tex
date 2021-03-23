@@ -82,7 +82,7 @@ To learn a bit about this new matrix, let us first look at the first eigenvalue 
     \min_{
       \substack{ \xx \neq \veczero}
     }
-    \frac{\xx^\trp \NN\xx}{\xx^\trp\xx}  \leq \frac{\yy^\trp\DD^{-1/2} \LL \DD^{-1/2} \yy}{\yy^\trp\DD\yy} = \frac{\vecone^\trp \LL \vecone}{\yy^\trp\DD\yy} = 0
+    \frac{\xx^\trp \NN\xx}{\xx^\trp\xx}  \leq \frac{\yy^\trp\DD^{-1/2} \LL \DD^{-1/2} \yy}{\yy^\trp\yy} = \frac{\vecone^\trp \LL \vecone}{\yy^\trp\yy} = 0
 \end{align}
 because $\DD^{-1/2} \DD^{1/2} = I$ and $\LL \vecone = 0$ (for the former we use the assumption that $G$ is connected). Since $\NN$ is PSD (as you will show in the exercises), we also know $\lambda_1(\NN) \geq 0$, so $\lambda_1(\NN) = 0$.
 
@@ -185,11 +185,11 @@ We have  $\frac{\mathbb{E}_{\tau}\left[\vecone_S^\trp \LL \vecone_S\right]}{\mat
 \begin{proof}
 Recall $\vecone_S^\trp \LL \vecone_S = E(S_{\tau}, V \setminus S_{\tau})$, and by choice of $\tau$, we have for any edge $e = \{i,j\} \in E$ where $\zz_{sc}(i) \leq \zz_{sc}(j)$,
 \begin{align*}
-    \mathbb{P}_{\tau}[e \in E(S_{\tau}, V \setminus S_{\tau})] &= \mathbb{P}_{\tau}[\zz_{sc}(i) < \tau \leq \zz_{sc}(j)] \\ &= \int_{t=i}^j 2|t|\; dt = \sgn{i} \cdot \zz_{sc}(i)^2 - \sgn{j} \cdot \zz_{sc}(j)^2.
+    \mathbb{P}_{\tau}[e \in E(S_{\tau}, V \setminus S_{\tau})] &= \mathbb{P}_{\tau}[\zz_{sc}(i) < \tau \leq \zz_{sc}(j)] \\ &= \int_{t=i}^j 2|t|\; dt = \sgn{j} \cdot \zz_{sc}(j)^2 - \sgn{i} \cdot \zz_{sc}(i)^2.
 \end{align*}
 Distinguishing by cases, we get
 \[
-\sgn{i} \cdot \zz_{sc}(i)^2 - \sgn{j} \cdot \zz_{sc}(j)^2 = \begin{cases}
+\sgn{j} \cdot \zz_{sc}(j)^2 - \sgn{i} \cdot \zz_{sc}(i)^2 = \begin{cases}
     |\zz_{sc}(i)^2 - \zz_{sc}(j)^2| & \sgn{i} = \sgn{j},
     \\
     \zz_{sc}(i)^2 + \zz_{sc}(j)^2 &\text{otherwise}.
