@@ -159,7 +159,7 @@ Instead of proving the theorem above, we prove the lemma below which gives point
 \begin{lemma}
 For all $a,b \in V$, and any time step $t$, we have for $\pp_0 = \vecone_a$ and $\pp_t = \WWtil^t \pp_0$ that
 \[
-  |\pp_t(b) - \ppi(b)| \leq e^{-\nu_2 \cdot t/2} \sqrt{\dd_a/\dd_b} 
+  |\pp_t(b) - \ppi(b)| \leq e^{-\nu_2 \cdot t/2} \sqrt{\dd_b/\dd_a} 
 \]
 \end{lemma}
 
@@ -190,7 +190,7 @@ where we use Cauchy-Schwarz in the last inequality, i.e. $|\langle \uu, \vv \ran
 
 Putting everything together (and using $1+x \leq e^x, \forall x \in \mathbb{R}$), we obtain 
 \[  
-    |\pp_t(b) - \ppi(b)| \leq \left(1-\frac{\nu_2}{2}\right)^t \sqrt{\dd_a/\dd_b} \leq e^{-\nu_2 \cdot t/2} \sqrt{\dd_a/\dd_b} 
+    |\pp_t(b) - \ppi(b)| \leq \left(1-\frac{\nu_2}{2}\right)^t \sqrt{\dd_b/\dd_a} \leq e^{-\nu_2 \cdot t/2} \sqrt{\dd_b/\dd_a} 
 \]
 
 \section{Properties of Random Walks}
