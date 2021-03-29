@@ -232,7 +232,7 @@ Finally, we observe that we only have a solution to the above system if and only
 We have now formalized $\LL$ and $\bb$ completely. A last detail that we should not forget about is that any solution $\xx$ to such system $\LL \xx = \bb$ is not necessarily equal $\hh$ but has the property that it is shifted from $\hh$ by the all-ones vector. Since we require $\hh_t = 0$, we can reconstruct $\hh$ from $\xx$ straight-forwardly by subtracting $\xx_t \vecone$.
 
 \begin{theorem}
-	Given a connected graph $G$, a special vertex $s \in V$. Then, we can formalize a Laplacian system $\LL \xx = \bb$ (where $\LL$ is the Laplacian of $G$) such that the expected hitting times to $s$ are given by $\hh = \xx - \xx_t \vecone$. We can reconstruct $\hh$ from $\xx$ in time $O(n)$.
+	Given a connected graph $G$, a special vertex $s \in V$. Then, we can formalize a Laplacian system $\LL \xx = \bb$ (where $\LL$ is the Laplacian of $G$) such that the expected hitting times to $s$ are given by $\hh = \xx - \xx_s \vecone$. We can reconstruct $\hh$ from $\xx$ in time $O(n)$.
 \end{theorem}
 
 \paragraph{Hitting Times and Electrical Networks.} Seeing that hitting times can be computed by formulating a Laplacian system $\LL \xx = \bb$. You might remember that in the first lecture, we argued that a system $\LL \xx = \bb$ also solve the problem of routing a demand $\bb$ via an electrical flow with voltages $\xx$. 
