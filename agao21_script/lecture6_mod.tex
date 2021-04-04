@@ -126,7 +126,8 @@ $(a,b)$, the effective resistance is just $\er(a,b)=r(a,b)$.
 In a general graph, we can also consider the energy required to route
 one unit of current between two vertices.
 For any pair $a,b\in V$, we have
-\[ \er(a,b) = \min_{\BB\ff=\ee_b-\ee_a} \ff^\trp\RR\ff. \]
+\[ \er(a,b) = \min_{\BB\ff=\ee_b-\ee_a} \ff^\trp\RR\ff, \]
+where $\ee_v \in \mathbb{R}^V$ is the characteristic vector of $\{v\}$.
 Note that the cost of routing $F$ units of flow from $a$ to $b$ will be $\er(a,b)\cdot F^2$.
 
 Since $(\ee_b-\ee_a)^\trp\matone=0$, we know from the previous section
