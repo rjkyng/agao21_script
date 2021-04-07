@@ -243,25 +243,18 @@ Indeed, we can interpret computing expected hitting times $\hh$ to a special ver
 
 A topic very related to hitting times are \emph{commute times}. That is for two vertices $a,b$, the commute time is the time in a random walk starting in $a$ to visit $b$ and then to return to $a$ again. Thus, it can be defined $C_{a,b} = H_{a,b} + H_{b,a}$.
 
-\paragraph{More of the Same?} While superficially, commute and hitting times might seem similar, in many ways, commute times are more natural to consider than hitting times. Key properties of commute times that do not hold for hitting times:
-\begin{itemize}
-	\item they are symmetric, and
-	\item one can define a metric using the commute times, and
-	\item arguing about additional edge insertions into the graph $G$ is known to monotonically decrease $C_{a,b}$ (for all $a,b \in V$). For hitting times, it can be truly hard to argue about such insertions.
-\end{itemize}
-
 \paragraph{Commute Times via Electric Flows.} Recall that expected hitting times have an electric flow interpretation. 
 
 Now, let us denote by $\xx$ a solution to the Laplacian system $\LL \xx = \bb_b$ where the demand is $\bb_b = \dd - \dd^\trp \vecone \cdot \vecone_b \in \ker(\vecone)^\perp$. Recall that we have $\mathbb{E}[H_{z,b}] = \xx_z - \xx_b$ for all $z$. 
 
 Similarly, we can compute voltages $\yy$ to the Laplacian system $\LL \yy = \bb_a$ where $\bb_a = \dd - \dd^\trp \vecone \cdot \vecone_a \in \ker(\vecone)^\perp$. Again, $\mathbb{E}[H_{z,a}] = \yy_z - \yy_a$ for all $z$. Note that, if we revert the flow by negating $\yy$, then we can still compute the hitting time by taking $\mathbb{E}[H_{z,a}] = -(-\yy_z - (-\yy_a)) = -(\yy_a-\yy_z)$.
 
-Thus, inducing voltages $\xx - \yy$ on the graph $G$, we now have by linearity that $\mathbb{E}[C_{a,b}] = \mathbb{E}[H_{a,b}+H_{b,a}] = |\xx_a - \xx_b| + |\yy_a-\yy_b|$. But these voltages are also induced by $\LL (\xx - \yy) = \bb_b - \bb_a = \dd^\trp \vecone (\vecone_a - \vecone_b)$ (again by linearity). That is the flow that routes $2m$ units of flow from $b$ to $a$.  
+Thus, inducing voltages $\xx - \yy$ on the graph $G$, we now have by linearity that $\mathbb{E}[C_{a,b}] = \mathbb{E}[H_{a,b}+H_{b,a}] = |\xx_a - \xx_b| + |\yy_a-\yy_b|$. But these voltages are also induced by $\LL (\xx - \yy) = \bb_b - \bb_a = \dd^\trp \vecone (\vecone_a - \vecone_b)$ (again by linearity). That is the flow that routes $\|\dd\|_1$ units of flow from $b$ to $a$.  
 
 \begin{theorem}
-	Given a graph $G=(V,E)$, for any two fixed vertices $a,b \in V$, the expected commute time $C_{a,b}$ is given by the voltage difference between $a$ and $b$ for any solution $\zz$ to the Laplacian system $\LL \zz = 2m \cdot (\vecone_b - \vecone_a)$.
+	Given a graph $G=(V,E)$, for any two fixed vertices $a,b \in V$, the expected commute time $C_{a,b}$ is given by the voltage difference between $a$ and $b$ for any solution $\zz$ to the Laplacian system $\LL \zz = \|\dd\|_1 \cdot (\vecone_b - \vecone_a)$.
 \end{theorem}
 
 We note that the voltage difference between $a$ and $b$ in an electrical flow routing demand $\vecone_b - \vecone_a$ is also called the \emph{effective resistance} $\er(a,b)$. This quantity will play a crucial role in the next roles. In the next lecture, we introduce $\er(a,b)$ slightly differently as the energy required by the electrical flow that routes $\vecone_b - \vecone_a$, however, it is not hard to show that these two definitions are equivalent.
 
-Our theorem can now be restated as saying that the expected commute time $\mathbb{E}[C_{a,b}] = 2m \cdot \er(a,b)$. This is a classic result.
+Our theorem can now be restated as saying that the expected commute time $\mathbb{E}[C_{a,b}] = \|\dd\|_1 \cdot \er(a,b)$. This is a classic result.
