@@ -238,6 +238,7 @@ For graphs with unit capacities ($c = 1$) we can prove even better bounds on the
 \end{proof}
 
 \section{Finding Blocking Flows}
+ \label{sec:findBlockingFlows} 
 What has been missing from our discussion so far is the process of actually finding a blocking flow.
 We can achieve this using repeated depth-first search. We repeatedly do a search in the level graph (so
 only using edges $L$) for $s$-$t$ paths and augment these. We erase edges whose subtrees have been
