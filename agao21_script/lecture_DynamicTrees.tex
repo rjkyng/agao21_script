@@ -10,7 +10,7 @@ In this lecture, we restrict ourselves to \emph{dynamic rooted forests} that is 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[scale=0.2]{./fig/InsertionDynamicTree_lectureDynamicTree.jpeg}
+    \includegraphics[scale=0.3]{./fig/InsertionDynamicTree_lectureDynamicTree.jpeg}
     \caption{The $i^{th}$ version of $G$ is a rooted forest. Here, red vertices are roots and there are two trees. The $(i+1)^{th}$ version of $G$ differs from $G^i$ by a single edge that was inserted (the blue edge). Note that edge insertions are only valid if the tail of the edge is a root.}
     \label{fig:my_label}
 \end{figure}
@@ -47,7 +47,7 @@ Then, for each path $P$ in $G$, we store the vertices in $P$ in a binary tree $\
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[scale=0.2]{./fig/PathRepTreap_lectureDynamicTree.jpeg}
+    \includegraphics[scale=0.3]{./fig/PathRepTreap_lectureDynamicTree.jpeg}
     \caption{In the upper half of the picture, the original path $P$ in $G$ is shown, along with the random numbers $ranNum(v)$ for each $v$. The lower half depicts the resulting treap with vertices on the same vertical line as before.}
     \label{fig:my_label}
 \end{figure}
@@ -99,7 +99,7 @@ We maintain the paths $P_1, P_2, \dots, P_k$ using the data structure described 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[scale=0.15]{./fig/HeavyLightDecomposition_lectureDynamicTree.jpeg}
+    \includegraphics[scale=0.20]{./fig/HeavyLightDecomposition_lectureDynamicTree.jpeg}
     \caption{The dashed edges are the edges not on any path $P_i$. The collection of (non-empty) paths $P_1, P_2, \dots, P_k$ can be seen to be the maximal path segments of solid edges.}
 \end{figure}
 
@@ -217,3 +217,8 @@ But each edge is only deleted once from $H$, thus we have a total of $O(m)$ tree
 \end{proof}
 
 The correctness of this algorithm follows almost immediately using that the level graph $L$ (and therefore $\textsc{Transform}(L)$) is an ayclic graph.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "agao21_script"
+%%% End:
