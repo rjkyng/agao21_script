@@ -521,8 +521,7 @@ edges: To do so, we allow edges in both directions to exist between a
 vertex to exist, and we require that that flow on a directed edge is
 always non-negative. So now $G=(V,E)$ is a directed graph.
 We can also make the problem harder by introducing capacities.
-We define a capacity vector $\cc \in \R^E \geq \veczero$ and require
-now try to minimize $\norm{\CC^{-1} \ff}_{\infty}$, where $\CC =
+We define a capacity vector $\cc \in \R^E \geq \veczero$ and try to minimize $\norm{\CC^{-1} \ff}_{\infty}$, where $\CC =
 \diag_{e \in E}\cc(e)$.
 Then our problem becomes
 \begin{align*}
