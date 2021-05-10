@@ -163,7 +163,8 @@ while the 2-norm stays constant. Hence at the maximum of $\norm{\xx}_p$ the grad
 %Here, $\lambda$ is the
 This insight is the core idea of Lagrange multipliers (in this case $\lambda$).
 
-Note that here the problem is not convex, as $\{ \xx: \norm{\xx}_2^2 = 1 \}$ is not convex.
+Note that here the problem is not convex, because $\{ \xx: \norm{\xx}_2^2 =
+1 \}$ is not convex and because we are asking to \emph{maximize} a norm.
 In the following we will study Lagrange multipliers for general convex problems.
 
 \subsection{General Convex Problems}
@@ -280,9 +281,9 @@ what is strong duality? $\beta^* = \alpha^*$?
 The answer is yes, but strong duality only holds under some conditions.
 
 One sufficient condition we look at today is a variant of \emph{Slater's condition}%
-\footnote{Again, Wikipedia is helpful here: \href{https://en.wikipedia.org/wiki/Slater's_condition}{https://en.wikipedia.org/wiki/Slater's\_condition}}.
-\begin{definition}[Slater's condition] \label{def:slater}
-A (primal) problem as defined in \eqref{eq:primalprob} fulfills
+
+\begin{definition}[Slater's condition with full domain] \label{def:slater}
+A (primal) problem as defined in \eqref{eq:primalprob} with $S = \R^n$ fulfills
 Slater's condition if there exists a \emph{strictly feasible} point,
 i.e.\ there exists $\yytil$ s.t.\ $\AA\yytil = \bb$ and $\cc(\yytil) <
 \veczero$.
@@ -294,6 +295,50 @@ This means that the strictly feasible point $\yytil$ lies strictly inside the se
 For a problem satisfying Slater's condition, strong duality holds, i.e.\ $\alpha^* = \beta^*$.
 In other words, the optimal value of the primal problem $\alpha^*$ is equal to the optimal value of the dual.
 \end{theorem}
+
+To extend Slater's condition to the case when the domain $S$ is a
+strict subset of $\R^n$, we need the notion of a ``relative interior''.
+
+% \begin{definition}[Affine hull] \label{def:affhull}
+% Given a set $S \subset \R^n$, the \emph{affine hull} of $S$, denoted $\operatorname{aff}(S)$, is the
+% union of $S$ and all lines through any pair of points in $S$.
+% We can also write this as
+% \[
+%   \operatorname{aff}(S) = \setof{\alpha \xx + (1-\alpha) \yy : \xx,
+%     \yy \in S, \alpha \in \R}. 
+%   \]
+% \end{definition}
+
+\begin{definition}[Relative interior] \label{def:relint}
+  Given a convex set $S \subset \R^n$, the \emph{relative interior} of $S$ is
+  \[
+    \operatorname{relint}(S) = \setof{x \in S : \text{ for all } \yy
+      \in S \text{ there exists } \epsilon > 0 \text{ such that }
+      \xx - \epsilon(\yy - \xx) \in S}
+    .
+  \]
+\end{definition}
+In other words, $\xx \in \operatorname{relint}(S)$ if starting at $\xx
+\in S$ we can move
+``away'' from any $\yy \in S$ by a little and still be in $\SS$.
+As an example, suppose $S = \setof{(s,t) \in \R^2 \text{ such that } s
+  \geq 0 \text{ and } t = 0}$.
+Then $(0,0) \in S$ but $(0,0) \not\in \operatorname{relint}(S)$, while
+$(1,0) \in \operatorname{relint}(S)$.
+
+Now, we can state a more general version of Slater's condition.
+
+\begin{definition}[Slater's condition] \label{def:slatergeneral}
+A (primal) problem as defined in \eqref{eq:primalprob} fulfills
+Slater's condition if there exists a \emph{strictly feasible} point
+$\yy \in \relint(S)$.
+We require $\AA\yytil = \bb$ and $\cc(\yytil) <
+\veczero$.
+This means that the strictly feasible point $\yytil$ lies strictly inside the set $\{\yy : \cc(\yy) \leq \veczero\}$ defined by the inequality constraints.
+\end{definition}
+
+Theorem~\ref{thm:slaterstrongduality} also holds given the general
+Slater's condition of Definition~\ref{def:slatergeneral}.
 
 \paragraph{How are we going to prove this?} Before we prove the theorem, let's make a few observations to get us
 warmed up. If you get bored, skip ahead to the proof.
@@ -386,7 +431,10 @@ What are the challenges we need to deal with?
 % When we proved weak duality in Section~\ref{sec:weakdual}, our reasoning
 
 \begin{proof}[Proof of Theorem~\ref{thm:slaterstrongduality}.]
-Let's move to on finding two convex disjoints sets $A, B$ to enable the use of the separating hyperplane \autoref{th:sht}.
+  For simplicity, our proof will assume that $S = \R^n$, but only a little
+  extra work is required to handle the general case.
+
+  Let's move to on finding two convex disjoints sets $A, B$ to enable the use of the separating hyperplane \autoref{th:sht}.
 
 First set we define $A$, roughly speaking, as a multi-dimensional epigraph of
 $G$. More precisely
@@ -532,3 +580,7 @@ particularly interesting one comes from economics:
 economists see the slack variables $\ss$ as prices for violating the constraints.
 
 %\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "agao21_script"
+%%% End:

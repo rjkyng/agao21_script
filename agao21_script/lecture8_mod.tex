@@ -504,7 +504,7 @@ This turns out to be a very useful tool for designing algorithms.
   Given  $\AA,\BB \in \psdsetn$ and $\epsilon > 0$, we say
   \[
     \AA \approx_{\epsilon} \BB \text{ if and only if }
-    \frac{1}{1+\epsilon} \AA \leq \BB \leq (1+\epsilon) \AA
+    \frac{1}{1+\epsilon} \AA \preceq \BB \preceq (1+\epsilon) \AA
     .
     \]
 \end{definition}
@@ -654,7 +654,7 @@ disagree on vectors in the kernel.
 Simple! But we are going to write it out carefully, since we're still
 getting used to these types of calculations.
 \begin{proof}[Proof of Claim~\ref{clm:spectralreltoabs}]
-  To prove Part~\ref{enu:normtoapx}, we
+  To prove Part~\ref{enu:switchapxnormalizer}, we
   assume $\PPi_{\LL} \approx_{\epsilon}
   \LL^{\pinv/2}\LLtil\LL^{\pinv/2}$.
   Recall that $G$ is a connected graph, so $\ker(\LL) =

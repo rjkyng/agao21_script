@@ -90,19 +90,24 @@ The strong duality theorem says, the Slater's condition implies strong duality, 
   with non-zero capacity (and if there is not, the maximum flow and
   minimum cut are both zero).
   \begin{align*}
-    \min_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \matzero\leq\ff\leq\cc \end{subarray}} -F
-    &= \min_{F;\ff\geq\matzero} \max_{\xx;\ss\geq\matzero} -F + \xx^\trp(F\bb_{s,t}-\BB\ff) + (\ff-\cc)^\trp\ss \\
+    \min_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \veczero\leq\ff\leq\cc \end{subarray}} -F
+    &= \min_{F;\ff\geq\veczero} \max_{\xx;\ss\geq\veczero} -F + \xx^\trp(F\bb_{s,t}-\BB\ff) + (\ff-\cc)^\trp\ss \\
     & \text{(Slater's condition $\implies$ strong duality)} \\
-    -\max_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \matzero\leq\ff\leq\cc \end{subarray}} F
-    &= \max_{\xx;\ss\geq\matzero} \min_{F;\ff\geq\matzero} F(\bb_{s,t}^\trp\xx-1) + \ff^\trp(\ss-\BB^\trp\xx) -\cc^\trp\ss \\
-    &= \max_{\begin{array}{c} \xx;\ss\geq\matzero \\ \bb_{s,t}^\trp\xx=1 \\ \ss\geq\BB^\trp\xx
+    -\max_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \veczero\leq\ff\leq\cc \end{subarray}} F
+    &= \max_{\xx;\ss\geq\veczero} \min_{F;\ff\geq\veczero} F(\bb_{s,t}^\trp\xx-1) + \ff^\trp(\ss-\BB^\trp\xx) -\cc^\trp\ss \\
+    &= \max_{\begin{array}{c} \xx;\ss\geq\veczero \\ \bb_{s,t}^\trp\xx=1 \\ \ss\geq\BB^\trp\xx
     \end{array}} -\cc^\trp\ss \\
-    \max_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \matzero\leq\ff\leq\cc \end{subarray}} F
-    &= \min_{\begin{array}{c} \xx;\ss\geq\matzero \\ \bb_{s,t}^\trp\xx=1 \\ \ss\geq\BB^\trp\xx
+    \max_{\begin{subarray}{c} F\in\R \\ \BB\ff=F\bb_{s,t} \\ \veczero\leq\ff\leq\cc \end{subarray}} F
+    &= \min_{\begin{array}{c} \xx;\ss\geq\veczero \\ \bb_{s,t}^\trp\xx=1 \\ \ss\geq\BB^\trp\xx
     \end{array}} \cc^\trp\ss \numberthis \label{eq:min-cut-max-flow}
   \end{align*}
   The LHS of (\ref{eq:min-cut-max-flow}) is exactly the LP formulation
   of max-flow, while the RHS is exactly the LP formulation of min-cut.
+  Note that we treated the ``constraint'' $ \veczero\leq\ff$ as a
+  restriction on the domain of $\ff$ rather than a constraint with a
+  dual variable associated with it.
+  We always have this kind of flexibility when deciding how to compute
+  a dual, and some choices may lead to a simpler dual program than others.
 \end{example}
 
 Let $\yy^*$ be an optimizer of the primal problem and $\xx^*, \ss^*$ for the dual. Since $\yy^*, \xx^*, \ss^*$ are also primal/dual feasible, then
@@ -515,3 +520,7 @@ It is easy to verify that $\BB\ddelta^* = \matzero$. Thus, our update rule is $\
 
 
 %\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "agao21_script"
+%%% End:
