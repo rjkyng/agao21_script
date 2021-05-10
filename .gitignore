@@ -275,3 +275,5 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+agao21_script/fig/.DS_Store
+agao21_script/.DS_Store
