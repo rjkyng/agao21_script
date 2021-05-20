@@ -158,7 +158,7 @@ We can look at this as optimizing $\max_{\xx} \norm{\xx}_p$ subject to $\norm{\x
 \end{figure}
 
 If we move from $\xx$ to $\xx + \ddelta$ with $\ddelta \perp \grad_{\xx}\norm{\xx}_2$ and $\ddelta \not\perp \grad_{\xx}\norm{\xx}_p$ means that for infinitesimally small $\ddelta$ the 2-norm stays constant but the $p$-norm changes.
-That means for either $\xx - \ddelta$ or $\xx + \ddelta$ the $p$-norm
+That means for either $\xx - \ddelta$ or $\xx + \ddelta$ the $p$-norm increases
 while the 2-norm stays constant. Hence at the maximum of $\norm{\xx}_p$ the gradients of both norms have to be parallel, i.e.~\begin{equation*}\grad_{\xx}\left(\norm{\xx}_p - \lambda\norm{\xx}_2\right) = 0.\end{equation*}
 %Here, $\lambda$ is the
 This insight is the core idea of Lagrange multipliers (in this case $\lambda$).
