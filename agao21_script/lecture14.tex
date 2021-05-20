@@ -5,9 +5,12 @@
 \newcommand{\sdiv}{\tilde{D}}
 \newcommand\cvec[1]{\overrightarrow{\left(#1\right)}}
 
-\section*{Notation}
+\section*{Background and Notation}
 
-In this chapter, we're going to frequently need to refer to vectors
+In this chapter, we'll learn about interior point methods for solving
+maximum flow, which is a rich and active area of research \cite{DS08,M13,LS20a,LS20b}. 
+
+We're going to frequently need to refer to vectors
 arising from elementwise operations combining other vectors.
 
 To that end, given two vector $\aa \in \R^m$, and $\bb \in \R^m$, we
@@ -17,6 +20,10 @@ $\zz(i) = \aa(i) \bb(i)$ and so on.
 Throughout this chapter, when we are working in the context of some
 given graph $G$ with vertices $V$ and edges $E$, we will let $m =
 \abs{E}$ and $n = \abs{V}$.
+
+The plots in this chapter were made using Mathematica, which is
+available to ETH students for download through the ETH IT Shop.
+
 
 \section{An Interior Point Method}
 \paragraph{The Maximum Flow problem in undirected graphs.}
@@ -70,18 +77,6 @@ feasible flow with Program~\eqref{eq:maxflow}, the Undirected Maximum Flow Probl
 $(1-\epsilon)F^*$.
 This is how we will develop an algorithm for computing the maximum flow.
 
-It turns out that, if we have a solution $\ff_1$ to this problem for some
-$\alpha_1 < 1$, then we can find a solution $\ff_2$ for some $\alpha_2 >
-\alpha_1$. And, we can compute $\ff_1$ using a small number of Newton
-steps, each of which will only require a Laplacian linear equation
-solve, and hence is computable in $\Otil(m)$ time.
-Concretely, for any $0 \leq \alpha_1 < 1$,
-given the optimal flow at this $\alpha_1$, we will be able to compute
-the optimal flow at $\alpha_2 = \alpha_1 + (1-\alpha_1)
-\frac{1}{70\sqrt{m}}$.
-This means that after $T = 70\sqrt{m}\log(1/\epsilon)$ updates, we have a solution
-for $\alpha_{T} \geq 1-\epsilon$.
-
 Program~\eqref{eq:barrierflow}  has the Lagrangian
 \[
 \calL(\ff,\xx) = V(\ff) + \xx^{\trp}( \alpha F^* \bb_{st}  - \BB\ff   )
@@ -102,13 +97,56 @@ and $\grad_{\ff} \calL(\ff,\xx) = \veczero$, i.e.
   \label{eq:barrierlagrangegrad}
   \grad V(\ff) = \BB^{\trp} \xx
   \\
-  \tag*{"Lagrangian barrier gradient optimality"}
+  \tag*{"Barrier Lagrangian gradient optimality"}
+\end{align}
+
+Let $\ff^*_{\alpha}$ denote the optimal solution to
+Problem~\ref{eq:barrierflow} for a given $0 \leq \alpha < 1$,
+and let $\xx^*_{\alpha}$ be optimal dual voltages such that $\grad V(\ff^*_{\alpha}) = \BB^{\trp} \xx^*_{\alpha}$.
+
+It turns out that, if we have a solution $\ff^*_{\alpha}$ to this problem for some
+$\alpha < 1$, then we can find a solution $\ff_{\alpha+\alpha'}$ for
+some $\alpha' < 1-\alpha$.
+And, we can compute $\ff_{\alpha+\alpha'}$ using a small number of Newton
+steps, each of which will only require a Laplacian linear equation
+solve, and hence is computable in $\Otil(m)$ time.
+Concretely, for any $0 \leq \alpha < 1$,
+given the optimal flow at this $\alpha$, we will be able to compute
+the optimal flow at $\alpha_{\text{new}} = \alpha + (1-\alpha)
+\frac{1}{150\sqrt{m}}$.
+This means that after $T = 150\sqrt{m}\log(1/\epsilon)$ updates, we have a solution
+for $\alpha \geq 1-\epsilon$.
+
+We can state the update problem as 
+
+\begin{align}
+ \label{eq:updateflow}
+  \min_{\ddelta \in \R^E} & \quad 
+    V(\ddelta+\ff)
+  \\
+\textrm{s.t. }  \BB\ddelta = \alpha' F^* \bb_{st}
+  \tag*{``The Update Problem''}
 \end{align}
 
 \subsection{Updates using Divergence}
+
+It turns out that for the purposes of analysis, it will be useful to
+ensure that our ``Update Problem'' uses an objective function that is
+minimized at $\ddelta = \veczero$.
+
+This leads to a variant of the Update Problem, which we call the
+``Divergence Update Problem''.
+We obtain our new problem by switching from
+$ V(\ddelta+\ff)$ as our objective to  $V(\ddelta+\ff)
+  -
+  (V(\ff)
+  +
+  \ip{\grad V(\ff), \ddelta})$ as our objective, and this is called
+  the \emph{divergece} of $V$ w.r.t. $\ddelta$ \emph{based} at $\ff$.
+  
 \begin{align}
  \label{eq:divflow}
-  \max_{\ddelta \in \R^E} & \quad 
+  \min_{\ddelta \in \R^E} & \quad 
     V(\ddelta+\ff)
   -
   (V(\ff)
@@ -116,50 +154,78 @@ and $\grad_{\ff} \calL(\ff,\xx) = \veczero$, i.e.
   \ip{\grad V(\ff), \ddelta})
   \\
 \textrm{s.t. }  \BB\ddelta = \alpha' F^* \bb_{st}
-  \tag*{``The Update Problem''}
+  \tag*{``The Divergence Update Problem''}
 \end{align}
 
-This problem has Lagrangian
+Now, for any flow $\ddelta$ such that $\BB\ddelta = \alpha' F^*
+\bb_{st}$, using the Lagrangian gradient condition
+\eqref{eq:barrierlagrangegrad},
+we have
+$\ip{\grad V(\ff^*_{\alpha}), \ddelta}) = \ip{\xx^*_{\alpha}, \alpha' F^*
+  \bb_{st}})$.
+Hence, for such $\ddelta$, we have 
 \[
-\calM(\ddelta,\zz) = V(\ff) + \zz^{\trp}((\alpha+\alpha') F
-\bb_{st}-  \BB(\ff+\ddelta) )
+    V(\ddelta+\ff^*_{\alpha})
+  -
+\left(
+  V(\ff^*_{\alpha})
+  +
+  \ip{\grad V(\ff^*_{\alpha}), \ddelta}
+\right)
+=
+    V(\ddelta+\ff^*_{\alpha})
+  -
+\left(
+ V(\ff^*_{\alpha})
+  +
+\ip{\xx^*_{\alpha}, \alpha' F^*\bb_{st}}
+\right)
 \]
+We conclude that the objectives of the Update
+Problem~\eqref{eq:updateflow} and the Divergence Update
+Problem~\eqref{eq:divflow} have the same minimizer, which we denote
+$\ddelta^*_{\alpha'}$, although, to be precise, it is also a function of $\alpha$.
 
-And we have optimality when
-\begin{align}
-  \label{eq:divfeasibility}
-  \BB(\ff+\ddelta)= (\alpha+\alpha') F^* \bb_{st}
-  \\
-    \tag*{``Update feasibility''}
-\text{and}
--\cc \leq \ff + \ddelta\leq \cc
-\end{align}
+% This problem has Lagrangian
+% \[
+% \calM(\ddelta,\zz) = V(\ff) + \zz^{\trp}((\alpha+\alpha') F
+% \bb_{st}-  \BB(\ff+\ddelta) )
+% \]
+
+% And we have optimality when
+% \begin{align}
+%   \label{eq:divfeasibility}
+%   \BB(\ff+\ddelta)= (\alpha+\alpha') F^* \bb_{st}
+%   \\
+%     \tag*{``Update feasibility''}
+% \text{and}
+% -\cc \leq \ff + \ddelta\leq \cc
+% \end{align}
+% % \begin{align}
+% %   \label{eq:divlagrangegrad}
+% %   \grad V(\ff+\ddelta) - \grad V(\ff) = \BB^{\trp} \zz
+% %   \tag*{Divergence Langrange Gradient.}
+% % \end{align}
+% % $\BB(\ff+\ddelta)= (1-\alpha+\alpha') F^* \bb_{st}$
+% % and
+% % $ -\cc \leq \ff + \ddelta\leq \cc$,
+% and $\grad_{\ddelta} \calM(\ddelta,\zz) = \veczero$, i.e.
 % \begin{align}
 %   \label{eq:divlagrangegrad}
-%   \grad V(\ff+\ddelta) - \grad V(\ff) = \BB^{\trp} \zz
-%   \tag*{Divergence Langrange Gradient.}
+% \grad V(\ff+\ddelta) - \grad V(\ff) = \BB^{\trp} \zz
 % \end{align}
-% $\BB(\ff+\ddelta)= (1-\alpha+\alpha') F^* \bb_{st}$
-% and
-% $ -\cc \leq \ff + \ddelta\leq \cc$,
-and $\grad_{\ddelta} \calM(\ddelta,\zz) = \veczero$, i.e.
-\begin{align}
-  \label{eq:divlagrangegrad}
-\grad V(\ff+\ddelta) - \grad V(\ff) = \BB^{\trp} \zz
-\end{align}
 
-Note that if we simultaneously have \eqref{eq:barrierfeasibility}, the
-``barrier feasibility''  condition, and \eqref{eq:divfeasibility}, the``update feasibility'' condition,
-satisfied along with Equations~\eqref{eq:barrierlagrangegrad}
-and~\eqref{eq:divlagrangegrad}, then
-$\ff + \ddelta$ satisfies the ``barrier feasibility'' with $\alpha$
-replaced by $\alpha + \alpha'$ and we have 
-\[
-\grad V(\ff+\ddelta) = \BB^{\trp} (\xx+\zz).
-\]
+% Note that if we simultaneously have \eqref{eq:barrierfeasibility}, the
+% ``barrier feasibility''  condition, and \eqref{eq:divfeasibility}, the``update feasibility'' condition,
+% satisfied along with Equations~\eqref{eq:barrierlagrangegrad}
+% and~\eqref{eq:divlagrangegrad}, then
+% $\ff + \ddelta$ satisfies the ``barrier feasibility'' with $\alpha$
+% replaced by $\alpha + \alpha'$ and we have 
+% \[
+% \grad V(\ff+\ddelta) = \BB^{\trp} (\xx+\zz).
+% \]
 
-Thus, we can conclude, by the Karush-Kuhn-Tucker theorem from the
-previous chapter, that $\ff+\ddelta$ is optimal for the
+Thus $\ff^*_{\alpha}+\ddelta^*_{\alpha'}$ is optimal for the
 optimization problem
   \begin{equation}
    \label{eq:barrierflowupdated}
@@ -171,18 +237,15 @@ optimization problem
 
 \begin{lemma}
   \label{lem:updateoptimality}
-  Suppose $\ff$ is the minimizer of Problem~\eqref{eq:barrierflow}
+  Suppose $\ff^*_{\alpha}$ is the minimizer of Problem~\eqref{eq:barrierflow}
   (the Barrier Problem with parameter $\alpha$) and
-  $\ddelta$ is the minimizer of Problem~\eqref{eq:divflow} (the
-  Update Problem with parameters $\ff$ and $\alpha'$),
-  then $\ff + \ddelta$ is optimal for Problem~\eqref{eq:barrierflow} 
+  $\ddelta^*_{\alpha'}$ is the minimizer of Problem~\eqref{eq:divflow} (the
+  Update Problem with parameters $\ff^*_{\alpha}$ and $\alpha'$),
+  then $\ff^*_{\alpha} + \ddelta^*_{\alpha'}$ is optimal for Problem~\eqref{eq:barrierflow} 
   with parameter $\alpha+\alpha'$ (i.e. a new instance of the Barrier
   problem).
-  
-  I.e.  $\ff + \ddelta$ is the argmin for Problem~\eqref{eq:barrierflowupdated}.
 \end{lemma}
 
-   \todo{talk about add}
 % \begin{remark}
 %   \[
 %     \ip{\grad V(\ff), \ddelta}) = \ip{\BB^{\trp}\xx, \ddelta} =
@@ -252,7 +315,7 @@ update $\alpha'$ is small enough,
   The idea is to first round to an almost optimal, feasible integral flow (which
   requires a non-trivial combinatorial algorithm), and then to recover
   the exact flow using Ford-Fulkerson.
-  \todo{cite}
+  See \cite{M13} for details.
 \end{remark}
 
 \begin{remark}
@@ -263,7 +326,7 @@ update $\alpha'$ is small enough,
   directed maximum flow problem.
   Thus Theorem~\eqref{thm:maxflowipm} can also be used to solve
   directed maximum flow.
-  \todo{cite}
+  We will ask you to develop this reduction in Graded Homework 2.
 \end{remark}
 
 \begin{remark}
@@ -272,15 +335,46 @@ update $\alpha'$ is small enough,
 \end{remark}
 
 \subsection{Understanding the Divergence Objective}
-\todo{why divergence}
 % \begin{align*}
 %   D( \ddelta+\ff \mid \ff )
 % \end{align*}
-\[
-D(x) = -\log(1-x) - x
-\]
+% \[
+% D(x) = -\log(1-x) - x
+% \]
+Note that if $V(x) = -\log(1-x)$, then $D(x) = V(x) - (V(0) + V'(0) x)$.
+
+% \begin{figure}[H]
+%   \centering
+%   % \includegraphics[width=0.5\linewidth]{fig/logbarrier.png}
+%   \begin{minipage}{0.4\textwidth}
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{fig/logbarrier.png} % first figure itself
+%     \caption{Plot showing ${V(x) = -\log(1-x)}$ and then linear
+%       approximation ${V(0) + V'(0) x}$.}
+%   \end{minipage}\hfill
+%   \begin{minipage}{0.4\textwidth}
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{fig/logdivergence.png}% second figure itself
+%     \caption{Plot showing ${D(x) = V(x) - (V(0) + V'(0) x)}$.}
+%   \end{minipage}
+% \end{figure}
 
 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.6\textwidth]{fig/logbarrier.png} % first figure itself
+    \caption{Plot showing ${V(x) = -\log(1-x)}$ and then linear
+      approximation ${V(0) + V'(0) x}$.}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.6\textwidth]{fig/logdivergence.png}% second figure itself
+    \caption{Plot showing ${D(x) = V(x) - (V(0) + V'(0) x)}$.}
+\end{figure}
+
+  
 We let
 \[
   \cc_+(e) = \cc(e) - \ff(e) \text{ and } \cc_-(e) = \cc(e) + \ff(e)
@@ -375,7 +469,6 @@ For brevity, we define
 \[
   \sdiv(x) =\sdiv_{0.1}(x) 
 \]
-\todo{mathematica plots}
 \begin{lemma}
   \label{lem:sdivderivs}
   \noindent
@@ -386,6 +479,19 @@ and $-2x \leq \sdiv'(-\xx) \leq -x/2$.
 \item $x^2/4 \leq \sdiv(\xx) \leq x^2$.
   \end{enumerate}
 \end{lemma}
+
+What's happening here? We glue together $D(x)$ for small $x$ with its
+quadratic approximation for $\abs{x} > \epsilon$.
+For $x > 0$, we ``glue in'' a Taylor series expansion based at $x =
+\epsilon$.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=\textwidth]{fig/quad-div-apx.png} % first figure itself
+    \caption{Plot showing ${D(x) = -\log(1-x)}$ and the quadratic
+      approximation based at $x = 0.1$.}
+\end{figure}
+
 
 We also define
   \begin{align*}
@@ -451,16 +557,20 @@ everywhere. This also takes some work to show, again is not too difficult.
 
 
 \paragraph{Local Agreement Implies Same Optimum.}
-\todo{point to proof, or give it}
 \begin{lemma}
   \label{lem:argminsfromlocalagreement}
-  Suppose $S \subseteq \R^n$ are a convex sets with $T \subseteq S$, and let $f, g: S \to R$ be convex
+  Suppose $S \subseteq \R^n$ is a convex set, and let $f, g: S \to R$ be convex
   functions.
-  Let $\xx^* = \argmin_{\xx \in T} f(\xx)$.
+  Let $\xx^* = \argmin_{\xx \in S} f(\xx)$.
   Suppose $f,g$ agree on a neighborhood of $\xx^*$ in $S$ (i.e. an
   open set containing $\xx^*$).
-  Then $\xx^* = \argmin_{\xx \in T} f(\xx)$.
+  Then $\xx^* = \argmin_{\xx \in S} f(\xx)$.
 \end{lemma}
+\begin{proof}[Proof Sketch]
+  We sketch the proof in the case when both $f,g$ are differentiable: Observe
+  that $\veczero = \grad f(\xx^*) = \grad g(\xx^*)$, and hence $\xx^*$
+  is also minimized at $\xx^*$.
+\end{proof}
 
 We define
 \begin{equation}

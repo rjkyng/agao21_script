@@ -118,7 +118,7 @@ If further assume $\calE: S \to \R$ and $\cc$ are differentiable and the minimiz
 \begin{align*}
   \left.\grad_{\yy}L(\yy, \xx^*, \ss^*)\right|_{\yy=\yy^*} &= \matzero \\
   \left.\grad_{\yy} \left( \calE(\yy) + (\xx^*)^\trp(\bb - \AA\yy) + (\ss^*)^\trp\cc(\yy) \right) \right|_{\yy=\yy^*} &= \matzero \\
-  \grad_{\yy}\calE(\yy^*) - \AA^\trp\xx^* - \ss^\trp\grad\cc(\yy^*) &= \matzero.
+  \grad_{\yy}\calE(\yy^*) + \AA^\trp\xx^* + \ss^\trp\grad\cc(\yy^*) &= \matzero.
 \end{align*}
 And this connects to our point of the parallel gradients.
 
@@ -137,7 +137,7 @@ Suppose $\xxtil, \yytil, \sstil$ satisfy the following conditions:
 \begin{itemize}
   \item $\AA\yytil = \bb$ and $\cc(\yytil) \leq 0$ \hfill (primal feasible)
   \item $\sstil \geq 0$ \hfill (dual feasible)
-  \item $\grad_{\yy}\calE(\yytil) - \AA^\trp\xxtil - \sstil^\trp\grad\cc(\yytil) = \matzero$ \hfill $\left(\grad_{\yy}L(\yytil,\xxtil, \sstil)=\matzero\right)$
+  \item $\grad_{\yy}\calE(\yytil) + \AA^\trp\xxtil + \sstil^\trp\grad\cc(\yytil) = \matzero$ \hfill $\left(\grad_{\yy}L(\yytil,\xxtil, \sstil)=\matzero\right)$
   \item $\sstil(i)\cdot\cc_i(\yytil) = 0$ for all $i$ \hfill (complementary slackness)
 \end{itemize}
 These conditions are called the \emph{Karush-Kuhn-Tucker} (KKT) conditions.
