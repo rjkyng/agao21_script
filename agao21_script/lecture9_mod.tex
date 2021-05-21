@@ -1050,7 +1050,7 @@ $0 <\theta \leq 0.5/\sqrt{K}$
 &  = \Ex{(<\hat{n})} \Ex{\pi(\hat{n})}
    \tr\exp\left(\sum_{i = 1}^{\hat{n}-1}\theta\XXtil_{i}
      +
-     \frac{1}{K}\theta^2\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}}
+     \frac{1}{K}\theta^2\Phi(\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}})
   \right)
 \end{align}
 To further bound the this quantity, we now need to deal with the
@@ -1061,7 +1061,7 @@ From a random matrix perspective, it's the following few
 steps that give the analysis it's surprising strength.
 
 We can treat
-$\frac{1}{K}\theta^2\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}}$ as a random
+$\frac{1}{K}\theta^2\Phi(\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}})$ as a random
 matrix.
 It is not zero-mean, but we can still bound the trace-exponential
 using Corollary~\ref{cor:trexpub}.
@@ -1170,7 +1170,7 @@ Corollary~\ref{cor:trexpub} to get
     \Ex{(<\hat{n})} \Ex{\pi(\hat{n})}
    \tr\exp\left(\sum_{i = 1}^{\hat{n}-1}\theta\XXtil_{i}
      +
-     \frac{1}{K}\theta^2\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}}
+     \frac{1}{K}\theta^2\Phi(\vcliq{\pi(\hat{n})}{\SS_{\hat{n}-1}})
     \right)
 \\  \nonumber
   &  \leq
