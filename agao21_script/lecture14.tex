@@ -47,7 +47,7 @@ In general, an a lower
 bound $F \leq F^*$ will allow us to find a flow with value $F$, and
 because of this, we can use a binary search to approximate $F^*$.
 
-\subsection{A barrier function and an algorithmic framework}
+\subsection{A Barrier Function and an Algorithm}
 \[
 V(\ff) = \sum_e -\log(\cc(e)-\ff(e))  -\log(\cc(e)+\ff(e)) 
 \]
@@ -568,7 +568,7 @@ everywhere. This also takes some work to show, again is not too difficult.
 \end{lemma}
 \begin{proof}[Proof Sketch]
   We sketch the proof in the case when both $f,g$ are differentiable: Observe
-  that $\veczero = \grad f(\xx^*) = \grad g(\xx^*)$, and hence $\xx^*$
+  that $\veczero = \grad f(\xx^*) = \grad g(\xx^*)$, and hence $g(\xx)$
   is also minimized at $\xx^*$.
 \end{proof}
 
