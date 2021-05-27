@@ -14,7 +14,7 @@ The algorithm computes the data structure in expected time $\tilde{O}(kmn^{1/k})
 \end{remark}
 
 \begin{remark}
-We point out that given space $O(n^{1+1/k})$, approximation $(2k-1)$ is the best that we can hope for according to a popular and widely believed conjecture that essentially says that there are graphs that have no cycle of length $(2k-1)$ but have $\tilde{\Omega}(n^{1+1/k})$ edges. A more careful analysis than we will carry out allows to shave all logarithmic factors from \Cref{thm:mainDistanceOracle} and therefore the data structure is only a factor $k$ off in space from optimal while also answering queries \emph{extremely} efficiently. It turns out that the factor $k$ can also be removed in space and query time (although currently preprocessing is quite expensive), see therefore the following (really involved) articles \cite{chechik2014approximate, chechik2015approximate}.
+We point out that given space $O(n^{1+1/k})$, approximation $(2k-1)$ is the best that we can hope for according to a popular and widely believed conjecture that essentially says that there are unweighted graphs that have no cycle of length $(2k+1)$ but have $\tilde{\Omega}(n^{1+1/k})$ edges. A more careful analysis than we will carry out allows to shave all logarithmic factors from \Cref{thm:mainDistanceOracle} and therefore the data structure is only a factor $k$ off in space from optimal while also answering queries \emph{extremely} efficiently. It turns out that the factor $k$ can also be removed in space and query time (although currently preprocessing is quite expensive), see therefore the following (really involved) articles \cite{chechik2014approximate, chechik2015approximate}.
 \end{remark}
 
 \begin{remark}
@@ -30,7 +30,7 @@ Let us first describe the data structure for the case where $k=2$. See therefore
   Obtain $S$ by sampling every vertex $v \in V$ i.i.d. with probability $n^{-1/2}$\;
   \ForEach{$s \in S$}{
     Compute all distances from $s$ to any other vertex $v \in V$\;
-    In a hash table $\mathcal{H}_s$ store for each $v \in V$ an entry with key $v$ and value $\mathbf{dist}_G(u,v)$.
+    In a hash table $\mathcal{H}_s$ store for each $v \in V$ an entry with key $v$ and value $\mathbf{dist}_G(s,v)$.
   }
   
   \ForEach{$u \in V \setminus S$}{
