@@ -559,12 +559,12 @@ everywhere. This also takes some work to show, again is not too difficult.
 \paragraph{Local Agreement Implies Same Optimum.}
 \begin{lemma}
   \label{lem:argminsfromlocalagreement}
-  Suppose $S \subseteq \R^n$ is a convex set, and let $f, g: S \to R$ be convex
+  Suppose $S \subseteq \R^n$ is a convex set, and let $f, g: S \to \R$ be convex
   functions.
   Let $\xx^* = \argmin_{\xx \in S} f(\xx)$.
   Suppose $f,g$ agree on a neighborhood of $\xx^*$ in $S$ (i.e. an
   open set containing $\xx^*$).
-  Then $\xx^* = \argmin_{\xx \in S} f(\xx)$.
+  Then $\xx^* = \argmin_{\xx \in S} g(\xx)$.
 \end{lemma}
 \begin{proof}[Proof Sketch]
   We sketch the proof in the case when both $f,g$ are differentiable: Observe
