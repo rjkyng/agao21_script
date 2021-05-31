@@ -161,8 +161,8 @@ Now, for any flow $\ddelta$ such that $\BB\ddelta = \alpha' F^*
 \bb_{st}$, using the Lagrangian gradient condition
 \eqref{eq:barrierlagrangegrad},
 we have
-$\ip{\grad V(\ff^*_{\alpha}), \ddelta}) = \ip{\xx^*_{\alpha}, \alpha' F^*
-  \bb_{st}})$.
+$\ip{\grad V(\ff^*_{\alpha}), \ddelta} = \ip{\xx^*_{\alpha}, \alpha' F^*
+  \bb_{st}}$.
 Hence, for such $\ddelta$, we have 
 \[
     V(\ddelta+\ff^*_{\alpha})
@@ -458,10 +458,10 @@ feasible set, so the argmin is unique.
     -\log(1-x) - x & \text{ if } \abs{x} \leq \epsilon \\
     D(\epsilon) + D'(\epsilon) (x - \epsilon) 
     +\frac{D''(\epsilon)}{2} (x - \epsilon)^2
-    & \text{ if }  x \geq \epsilon \\
+    & \text{ if }  x > \epsilon \\
     D(-\epsilon) + D'(-\epsilon) (x + \epsilon) 
     +\frac{D''(-\epsilon)}{2} (x +\epsilon)^2
-    & \text{ if }  x \leq -\epsilon \\
+    & \text{ if }  x < -\epsilon \\
   \end{cases}
 \]
 
@@ -482,7 +482,7 @@ and $-2x \leq \sdiv'(-\xx) \leq -x/2$.
 
 What's happening here? We glue together $D(x)$ for small $x$ with its
 quadratic approximation for $\abs{x} > \epsilon$.
-For $x > 0$, we ``glue in'' a Taylor series expansion based at $x =
+For $x > \epsilon$, we ``glue in'' a Taylor series expansion based at $x =
 \epsilon$.
 
 \begin{figure}[H]
@@ -559,12 +559,12 @@ everywhere. This also takes some work to show, again is not too difficult.
 \paragraph{Local Agreement Implies Same Optimum.}
 \begin{lemma}
   \label{lem:argminsfromlocalagreement}
-  Suppose $S \subseteq \R^n$ is a convex set, and let $f, g: S \to R$ be convex
+  Suppose $S \subseteq \R^n$ is a convex set, and let $f, g: S \to \R$ be convex
   functions.
   Let $\xx^* = \argmin_{\xx \in S} f(\xx)$.
   Suppose $f,g$ agree on a neighborhood of $\xx^*$ in $S$ (i.e. an
   open set containing $\xx^*$).
-  Then $\xx^* = \argmin_{\xx \in S} f(\xx)$.
+  Then $\xx^* = \argmin_{\xx \in S} g(\xx)$.
 \end{lemma}
 \begin{proof}[Proof Sketch]
   We sketch the proof in the case when both $f,g$ are differentiable: Observe

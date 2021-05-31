@@ -386,7 +386,7 @@ we obtain the global minimizer
 \[ \yy^* = -\AA^{-1}\bb. \]
 To make it more like gradient descent, let us start at some ``guess" point $\yy$ and take a step $\ddelta$ to move to the new point $\yy+\ddelta$. Then we try to minimize $\calE(\yy+\ddelta)$ by setting the gradient w.r.t. $\ddelta$ to zero,
 \begin{align*}
-  \grad_{\ddelta} \calE(\yy+\ddelta) = \AA(\yy+\ddelta) &= \matzero \\
+  \grad_{\ddelta} \calE(\yy+\ddelta) = \AA(\yy+\ddelta)+\bb &= \matzero \\
   \ddelta & = -\yy-\AA^{-1}\bb \\
   \yy+\ddelta &= -\AA^{-1}\bb
 \end{align*}

@@ -5,7 +5,7 @@
 
 In the previous sections, we first saw a complete characterization of the
 eigenvalues and eigenvectors of the unit weight complete graph on $n$
-vertices, $K_n$. Namely, $\LL_{K_N} = n\II - \vecone \vecone^\trp$, and
+vertices, $K_n$. Namely, $\LL_{K_n} = n\II - \vecone \vecone^\trp$, and
 this means that \emph{every} vector $\yy \perp \vecone$ is an
 eigenvector of eigenvalue $n$.
 
@@ -18,8 +18,8 @@ vertices, and we showed using \emph{test vector} bounds that
 \lambda_n(\LL_{P_n}).
 \end{equation}
 %
-Ideally we would like to prove an almost matching upper bound on
-$\lambda_2$ and an almost matching lower bound on $\lambda_n$, but it
+Ideally we would like to prove an almost matching lower bound on
+$\lambda_2$ and an almost matching upper bound on $\lambda_n$, but it
 is not clear how to get that from the Courant-Fischer theorem.
 
 To get there, we start we need to introduce some more tools.
@@ -323,7 +323,7 @@ some examples where they do.
 
 % By now you should be wondering, ``how do we prove that $G \succeq c \cdot H$ for some graph $G$ and $H$?'' Not too many ways are known. We'll do it by proving some inequalities of this form for some of the simplest graphs, and then extending them to more general graphs.
 In the rest of the chapter, we will often need to compare two graphs
-define on the same vertex set $V = \setof{1,\ldots,n} = [n]$.
+defined on the same vertex set $V = \setof{1,\ldots,n} = [n]$.
 
 We use $G_{i,j}$ to denote the unit weight graph on vertex set $[n]$
 consisting of a single edge between vertices $i$ and $j$.
@@ -342,7 +342,7 @@ consisting of a single edge between vertices $i$ and $j$.
 % \end{lemma}
 \begin{proof}
 
-We want to show that for every $\xx \in \in \R^n$,
+We want to show that for every $\xx \in \R^n$,
 \begin{align*}
 (n-1) \cdot \sum_{i=1}^{n-1} ( \xx(i+1) - \xx(i) )^2 \geq ( \xx(n) - \xx(1) )^2.
 \end{align*}
