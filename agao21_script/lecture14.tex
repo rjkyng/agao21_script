@@ -458,10 +458,10 @@ feasible set, so the argmin is unique.
     -\log(1-x) - x & \text{ if } \abs{x} \leq \epsilon \\
     D(\epsilon) + D'(\epsilon) (x - \epsilon) 
     +\frac{D''(\epsilon)}{2} (x - \epsilon)^2
-    & \text{ if }  x \geq \epsilon \\
+    & \text{ if }  x > \epsilon \\
     D(-\epsilon) + D'(-\epsilon) (x + \epsilon) 
     +\frac{D''(-\epsilon)}{2} (x +\epsilon)^2
-    & \text{ if }  x \leq -\epsilon \\
+    & \text{ if }  x < -\epsilon \\
   \end{cases}
 \]
 
@@ -482,7 +482,7 @@ and $-2x \leq \sdiv'(-\xx) \leq -x/2$.
 
 What's happening here? We glue together $D(x)$ for small $x$ with its
 quadratic approximation for $\abs{x} > \epsilon$.
-For $x > 0$, we ``glue in'' a Taylor series expansion based at $x =
+For $x > \epsilon$, we ``glue in'' a Taylor series expansion based at $x =
 \epsilon$.
 
 \begin{figure}[H]
