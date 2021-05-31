@@ -208,10 +208,13 @@ is demonstrated in the following example.
   \end{align*}
 \end{example}
 
-\begin{theorem}[properties of Fenchel conjugate]
+\begin{theorem}[Properties of the Fenchel conjugate]
   \label{thm:conjugate}
-  When $\calE : \R^n \to \R$ is bounded below, strictly convex, differentiable, with a Hessian
-  that is positive definite everywhere, we have the following three properties:
+  Consider a strictly convex function ${\calE : S \to \R}$ where $S \subseteq
+  R^n$ is an open convex set. When $\calE$ is differentiable with a Hessian
+  that is positive definite everywhere and its gradient $\grad \calE$
+is surjective onto
+  $\R^n$, we have the following three properties:
   \begin{enumerate}
   \item $\grad\calE(\grad\calE^*(\zz))=\zz$ \text{and} $\grad\calE^*(\grad\calE(\yy)) = \yy$ \label{enu:gradmap}
   \item $(\calE^*)^* = \calE$, i.e.\ the Fenchel conjugate of the \label{enu:doubleconj}
@@ -221,6 +224,7 @@ is demonstrated in the following example.
 \end{theorem}
 
 \begin{figure}[H]
+\begin{mdframed}
   \centering
 %  \includegraphics[width=0.5\linewidth]{fig/Fenchel_conjugate.png}
 \begin{center}
@@ -240,17 +244,25 @@ is demonstrated in the following example.
 \end{center}
   \caption{Properties of Fenchel conjugate}
   \label{fig:fenchel}
+\end{mdframed}
 \end{figure}
 
 \begin{proof}[Proof sketch]
- \emph{Part \ref{enu:gradmap}.} Given $\zz$, let $\yy=\yy(\zz)$
-  be the $\yy$ achieving the supremum in the Fenchel conjugate program
-  such that
-  $\calE^*(\zz) = \ip{\zz, \yy(\zz)} - \calE(\yy(\zz))$.
-  One can show that because $\calE$ is bounded below and strictly
-  convex,  $\yy \mapsto \ip{\zz, \yy} - \calE(\yy) $ is bounded above
-  and is strictly concave, and is hence maximized at some $\yy$ such that $\zz = \grad\calE(\yy(\zz))$.
-  Since $\calE$ is strictly convex, $\yy(\zz)$ is unique. Then, using the product rule and composition rule of derivatives,
+  \emph{Part \ref{enu:gradmap}.}
+  Because the gradient $\grad_{\yy}\calE$ is surjective onto $\R^n$,
+  given any $\zz \in \R^n$, there exists a $\yy$ such that $\grad
+  \calE(\yy) = \zz$.  Let $\yy(\zz)$ be a $\yy$ s.t. $\grad
+  \calE(\yy) = \zz$.
+  It can be shown that because $\calE$ is strictly convex, $\yy(\zz)$
+  is unique.
+  
+  The function $\yy \mapsto \ip{\zz, \yy} - \calE(\yy) $ is concave in
+  $\yy$ and has gradient $\zz - \grad \calE(\yy)$ and is hence
+  maximized at $\yy = \yy(\zz)$. This follows because we know a
+  differentiable convex function is  minimized when its gradient is zero and so a differentiable concave function is
+  maximized when its gradient is zero.
+  
+ Then, using the product rule and composition rule of derivatives,
   \begin{align*}
     \grad\calE^*(\zz) &= \grad_{\zz} \left(\langle\zz,\yy(\zz)\rangle - \calE(\yy(\zz))\right) \\
     &= \yy(\zz) + \diag(\zz)\grad_{\zz}\yy(\zz) - \diag(\underbrace{\grad_{\yy}\calE(\yy(\zz)}_{=\zz}))\grad_{\zz}\yy(\zz) \\
@@ -357,6 +369,12 @@ Thus, $\grad\calE^*(\grad\calE(\yy))=\yy$.
   \[ \HH_{\calE^*}(\zz) = \HH_{\calE}^{-1}(\yy) \iff \HH_{\calE^*}(\grad\calE(\yy)) = \HH_{\calE}^{-1}(\yy). \]
 \end{proof}
 
+\begin{remark}
+  Theorem~\ref{thm:conjugate} can be generalized to show that the
+  Fenchel conjugate has similar nice properties under much more
+  general conditions,
+  e.g. see \cite{BV04}.
+\end{remark}
 
 \section{Newton's Method}
 \subsection{Warm-up: Quadratic Optimization}
