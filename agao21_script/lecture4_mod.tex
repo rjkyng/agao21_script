@@ -260,7 +260,7 @@ Then $\xx^{\trp} \LL \xx = \yy^{\trp} \LL \yy$, and $\norm{\xx}_2^2 =
 \norm{\yy}^2 + \alpha^2 \norm{\vecone}^2$.
 So for any given vector, you can increase the value of $\frac{
   \xx^\top \LL \xx}{ \xx^\top \xx}$, by instead replacing $\xx$ with
-the component orthogonal to $\xx$, which we denoted by $\yy$.
+the component orthogonal to $\vecone$, which we denoted by $\yy$.
 
 We can conclude from Equation~\eqref{eq:lambda2bymin} that for \emph{any} vector $\yy \perp \vecone$,
 \begin{align*}
@@ -291,21 +291,21 @@ when we want to prove lower bounds on $\lambda_2(\LL)$.
 
 We can see from either version of the Courant-Fischer theorem that
 \begin{align}
-  \label{eq:lambda2bymin}
+  \label{eq:lambdanbymax}
 \lambda_n(\LL) = \max_{ \substack{ \vv \neq \veczero} } \frac{ \vv^\top \LL \vv}{ \vv^\top \vv}.
 \end{align}
 Thus for \emph{any} vector $\yy \neq 0$,
 \begin{align*}
 \lambda_n \geq \frac{ \yy^\trp \LL \yy}{ \yy^\trp \yy}.
 \end{align*}
-This means get a test vector-based lower bound on $\lambda_n$.
+This means we can get a test vector-based lower bound on $\lambda_n$.
 Let us apply this to the Laplacian of $P_n$.
-We'll try the vector $\xx \in \R^V$ be given by $\xx ( 1 ) = -1$,
+We'll try the vector $\xx \in \R^V$ given by $\xx ( 1 ) = -1$,
 and $\xx(n) = 1$ and $\xx(i) = 0$ for $i \neq 0,1$.
 
 Here we get
 \begin{align*}
-\lambda_n(\LL_{P_n}) \geq \frac{ \yy^\trp \LL \yy}{ \yy^\trp \yy} = \frac{2}{2} = 1.
+\lambda_n(\LL_{P_n}) \geq \frac{ \xx^\trp \LL \xx}{ \xx^\trp \xx} = \frac{2}{2} = 1.
 \end{align*}
 
 Again, it's not clear how to use the Courant-Fischer theorem to prove
