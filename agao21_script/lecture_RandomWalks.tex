@@ -199,11 +199,13 @@ We now shift our focus away from convergence of random walks and consider some i
 
 \subsection{Hitting Times}
 
-One of the most natural questions one can ask about a random walk starting in a vertex $a$ (i.e. $\pp_0 = \vecone_a$) is how many steps it takes to get to a special vertex $s$. This quantity is called the \emph{hitting time} from $a$ to $s$ and we denote it by $H_{a,s} = \min \{ t \;|\; \vv_t = s \}$. For the rest of this section, we are concerned with computing the expected hitting time, i.e. $\mathbb{E}[H_{a,s}]$.
+One of the most natural questions one can ask about a random walk starting in a vertex $a$ (i.e. $\pp_0 = \vecone_a$) is how many steps it takes to get to a special vertex $s$. This quantity is called the \emph{hitting time} from $a$ to $s$ and we denote it by $H_{a,s} = \inf \{ t \;|\; \vv_t = s \}$. For the rest of this section, we are concerned with computing the expected hitting time, i.e. $\mathbb{E}[H_{a,s}]$.
 
 It turns out, that it is more convenient to compute \emph{all} expected hitting times $H_{a,s}$ for vertices $a \in V$ to a fixed $s$. We denote by $\hh \in \mathbf{R}^V$, the vector with $\hh_a = \mathbb{E}[H_{a,s}]$. We now show that we can compute $\hh$ by solving a Laplacian system $\LL \hh = \bb$. We will see later in the course that such systems (spoiler alert!) can be solved in time $\tilde{O}(m)$, so this will imply a near-linear time algorithm to compute the hitting times.
 
-\paragraph{Hitting Time and the Random Walk Matrix.} Let us first observe that if $s = a$, then the answer becomes trivially $0$, i.e. $\hh_s = 0$. For $a \neq s$, we have that the random walks starting at $a$ will next visit a neighbor $b$ of $a$. If the selected neighbor $b = s$, the random walks stops; otherwise, the random walks needs in expectation $\mathbb{E}[H_{b,s}]$ time to move to $s$. 
+\paragraph{Hitting Time and the Random Walk Matrix.} Let us first observe that if $s = a$, then the answer becomes trivially $0$, i.e. $\hh_s = 0$. 
+
+We compute the rest of the vector by writing down a system of equations that recursively characterizes $\hh$. Observe therefore first that for any $a \neq s$, we have that the random walks starting at $a$ will next visit a neighbor $b$ of $a$. If the selected neighbor $b = s$, the random walks stops; otherwise, the random walks needs in expectation $\mathbb{E}[H_{b,s}]$ time to move to $s$. 
 
 We can express this algebraically by
 \[
@@ -217,7 +219,7 @@ This gives a system of (linear) equations, that can be neatly summarized by
 \[
 \vecone - \alpha \cdot \vecone_s = (\II - \WW^\trp) \hh
 \]
-where we have an extra degree of freedom in formulating a constraint $1 - \alpha = \vecone_s^\trp (\II -\WW^\trp) \hh$ (a degree of freedom that we indeed need in a second).
+where we have an extra degree of freedom in choosing $\alpha$ in formulating a constraint $1 - \alpha = \vecone_s^\trp (\II -\WW^\trp) \hh$. This extra degree of freedom stems from the fact that $n-1$ equations suffice for us to enforce that the returned vector $\xx$ to the system  from the system are indeed the hitting times (possibly shifted by the value assigned to coordinate $t$).
 
 \paragraph{Finding Hitting Times via Laplacian System Solve.} Since we assume $G$ connected, we have that multiplying with $\DD = \DD^\trp$ preserves equality. Further since $\WW = \AA \DD^{-1}$, we obtain
 \[
@@ -229,13 +231,13 @@ Finally, we observe that we only have a solution to the above system if and only
 \[
 \vecone^{\trp}(\dd - \alpha \cdot \dd(s) \cdot \vecone_s) = \|\dd\|_1 - \alpha \cdot \dd(s) \iff \alpha =  \|\dd\|_1 /\dd(s).
 \]
-We have now formalized $\LL$ and $\bb$ completely. A last detail that we should not forget about is that any solution $\xx$ to such system $\LL \xx = \bb$ is not necessarily equal $\hh$ but has the property that it is shifted from $\hh$ by the all-ones vector. Since we require $\hh_t = 0$, we can reconstruct $\hh$ from $\xx$ straight-forwardly by subtracting $\xx_t \vecone$.
+We have now formalized $\LL$ and $\bb$ completely. A last detail that we should not forget about is that any solution $\xx$ to such system $\LL \xx = \bb$ is not necessarily equal $\hh$ but has the property that it is shifted from $\hh$ by the all-ones vector. Since we require $\hh_s = 0$, we can reconstruct $\hh$ from $\xx$ straight-forwardly by subtracting $\xx_s \vecone$.
 
 \begin{theorem}
 	Given a connected graph $G$, a special vertex $s \in V$. Then, we can formalize a Laplacian system $\LL \xx = \bb$ (where $\LL$ is the Laplacian of $G$) such that the expected hitting times to $s$ are given by $\hh = \xx - \xx_s \vecone$. We can reconstruct $\hh$ from $\xx$ in time $O(n)$.
 \end{theorem}
 
-\paragraph{Hitting Times and Electrical Networks.} Seeing that hitting times can be computed by formulating a Laplacian system $\LL \xx = \bb$. You might remember that in the first lecture, we argued that a system $\LL \xx = \bb$ also solve the problem of routing a demand $\bb$ via an electrical flow with voltages $\xx$. 
+\paragraph{Hitting Times and Electrical Networks.} Seeing that hitting times can be computed by formulating a Laplacian system $\LL \xx = \bb$. You might remember that in the first lecture, we argued that a system $\LL \xx = \bb$ also solves the problem of routing a demand $\bb$ via an electrical flow with voltages $\xx$. 
 
 Indeed, we can interpret computing expected hitting times $\hh$ to a special vertex $s$ as the problem of computing the electrical voltages $\xx$ where we insert (or more technically correct apply) $\dd(a)$ units of current at every vertex $a \neq s$ and where we remove $\vecone^\trp\dd - \dd(s)$ units of current at the vertex $s$. Then, we can express expected hitting time to some vertex $a$ as the voltage difference to $s$: $\mathbb{E}[H_{a,s}] = \hh_a = \xx_a - \xx_s$.
 
