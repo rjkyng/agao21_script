@@ -1,6 +1,6 @@
 \chapter{Link-Cut Trees}
 
-In this chapter, we will learn about a dynamic data structure that allows us to speed-up Dinic's algorithm even more: \emph{Link-Cut Trees}.
+In this chapter, we will learn about a dynamic data structure that allows us to speed-up Dinic's algorithm even more: \emph{Link-Cut Trees}. This chapter is inspired by lecture notes of Richard Peng\footnote{CS7510 Graph Algorithms Fall 2019, Lecture 17 at https://faculty.cc.gatech.edu/~rpeng/CS7510\_F19/} and the presentation in a very nice book on data structures and network flows by Robert Tarjan \cite{tarjan1983data}.
 
 \section{Overview}
 
@@ -11,7 +11,7 @@ In this lecture, we restrict ourselves to \emph{dynamic rooted forests} that is 
 \begin{figure}[!ht]
     \centering
     \includegraphics[scale=0.2]{./fig/InsertionDynamicTree_lectureDynamicTree.jpeg}
-    \caption{The $i^{th}$ version of $G$ is a rooted forest. Here, red vertices are roots and there are two trees. The $(i+1)^{th}$ version of $G$ differs from $G^i$ by a single edge that was inserted (the blue edge). Note that edge insertions are only valid if the tail of the edge is a root.}
+    \caption{The $i^{th}$ version of $G$ is a rooted forest. Here, red vertices are roots and there are two trees. The $(i+1)^{th}$ version of $G$ differs from $G^i$ by a single edge that was inserted (the blue edge). Note that edge insertions are only valid if the tail of the edge was a root. In the right picture, the former root on the right side is turned into a normal node in the tree by the update.}
     \label{fig:my_label}
 \end{figure}
 
@@ -37,7 +37,7 @@ Before we prove \Cref{thm:mainTheoremLinkCutTree} in its full generality, let us
 
 \paragraph{Representing Paths via Balanced Binary Search Trees.} It turns out that paths can be represented rather straight-forwardly via Balanced Binary Search Trees. For the sake of concreteness, we here use \emph{treaps} to represent paths\footnote{If you have not seen treaps before, don't worry, they are simple enough to understand them from our application here. }. 
 
-Let us now describe how to represent a path $P$ in $G$. First, we pick for each vertex $v$, a random natural number $ranNum(v)$ uniformly at random from a large universe, say $[1, n^{100})$. We assume henceforth that $ranNum(v) \neq ranNum(w)$ for all $v,w\in V$.
+Let us describe how to represent a path $P$ in $G$. First, we pick for each vertex $v$, a random natural number $ranNum(v)$ uniformly at random from a large universe, say $[1, n^{100})$. We assume henceforth that $ranNum(v) \neq ranNum(w)$ for all $v,w\in V$.
 
 Then, for each path $P$ in $G$, we store the vertices in $P$ in a binary tree $\mathcal{P}$ and enforce the invariants:
 \begin{itemize}
@@ -58,11 +58,11 @@ Then, for each path $P$ in $G$, we store the vertices in $P$ in a binary tree $\
 \]
 It is straight-forward to see that the operation $\textsc{FindRoot}(v)$ can thus be implemented to run in expected $O(\log n)$ time by just iteratively following the parent pointers starting in $v$.
 
-\paragraph{Implementing $\textsc{FindRoot}(v)$.} From any vertex $v$, we can simply follow the parent pointers in $\mathcal{P}$ until we are at the root of $\mathcal{P}$. Then, we find the right-most child of $\mathcal{P}$ by following the $left_{\mathcal{P}}$ pointers. Finally, we return the left-most child which is the root.
+\paragraph{Implementing $\textsc{FindRoot}(v)$.} From any vertex $v$, we can simply follow the parent pointers in $\mathcal{P}$ until we are at the root of $\mathcal{P}$. Then, we find the right-most child of $\mathcal{P}$ by following the $right_{\mathcal{P}}$ pointers. Finally, we return the right-most child which is the root.
 
 \paragraph{Implementing $\textsc{AddCost}(v, \Delta)$ and $\textsc{FindMin}(v)$.} The key trick to do the operations above efficiently is to store the change to subtrees instead of updating $cost(v)$ for each affected vertex. 
 
-To this end, we store two fields $\Delta cost(v)$ and $\Delta min(v)$ for every vertex $v$. We let $cost(v)$ be the cost of each vertex, and $mincost(v)$ denote the minimum cost of any descendant of $v$ in $\mathcal{P}$. Then, we maintain for each $v$
+To this end, we store two fields $\Delta cost(v)$ and $\Delta min(v)$ for every vertex $v$. We let $cost(v)$ be the cost of each vertex, and $mincost(v)$ denote the minimum cost of any descendant of $v$ in $\mathcal{P}$ (where we let $v$ be a descendant of itself). Then, we maintain for each $v$
 \[
     \Delta cost(v) = cost(v) - mincost(v)
 \]
@@ -73,19 +73,53 @@ To this end, we store two fields $\Delta cost(v)$ and $\Delta min(v)$ for every 
 \]
 It is not hard to see that with these definitions, we obtain $mincost(v) = \sum_{w \in \mathcal{P}[v]} \Delta min(v)$ where $\mathcal{P}[v]$ is the $v$-to-root path in $\mathcal{P}$. We can then recover $cost(v) = mincost(v) + \Delta cost(v)$. 
 
-To enforce this invariant, when $\textsc{AddCost}(v, \Delta)$ is invoked, we can simply manipulate the fields of vertices that are adjacent to the $v$-to-root path in $\mathcal{P}$ (This depends on whether the path takes a right or left turn). This can be done in expected $O(\log n)$ time.
+Initially, we have that all costs are set to $0$ and so we have that for each vertex $v \in V$, we can simply set $\Delta cost(v) = \Delta min(v) = 0$. 
 
-To implement the operation $\textsc{FindMin}(v)$ efficiently, we can use binary search to visit a child $w$ (the left one if both are eligible) where $mincost(v) = mincost(w)$. It is not hard to see that each $mincost(w)$ can be found in $O(1)$ given the $mincost$ of its parent. Thus, one can implement $\textsc{FindMin}(v)$ again in $O(\log n)$ expected time.
+\begin{algorithm}
+  \SetAlgoLined
+  \DontPrintSemicolon
+  \SetKwRepeat{Do}{do}{while}
+  Store the vertices on the $v$ to root paths $\langle v = x_1, x_2, \ldots, x_k = \textsc{FindRoot}(v)\rangle$.\\
+  \For{$i = k$ DownTo $1$}{
+        $\Delta cost(x_i) = \Delta cost(x_i) + \Delta$.\;
+        \If{$(r \gets right_{\mathcal{P}}(x_i)) \neq NULL$ AND ($i = 0$ OR $x_{i-1} \neq r$)}{
+            $\Delta min(r) \gets \Delta min(r) + \Delta$
+        }
+  }
+  
+  \For{$i = 1$ UpTo $k$}{
+        $min \gets \Delta cost(x_i)$.\\
+        \lForEach{$w \in \{left_{\mathcal{P}}(x_i), right_{\mathcal{P}}(x_i)\}, w \neq NULL$}{
+            $min \gets \min\{ min, \Delta min(w)\}$.
+        }
+        
+        $\Delta min(x_i) \gets \Delta min(x_i) + min$.\\
+        $\Delta cost(x_i) \gets \Delta cost(x_i) - min$.\\
+        \lForEach{$w \in \{left_{\mathcal{P}}(x_i), right_{\mathcal{P}}(x_i) \}, w \neq NULL$}{
+            $\Delta min(w) \gets \Delta min(w) - min$.
+        }
+  }
+  \caption{$\textsc{AddCost}(v, \Delta)$}
+\end{algorithm}
 
-\paragraph{Implementing $\textsc{Link}(u,v)$ and $\textsc{Cut}(u,v)$.} We start by showing how to implement $\textsc{Cut}(u,v)$. Therefore, we assume that we have a dummy node $d_0$ with $ranNum(d_0) = 0$ in the vertex set. The trick is to first treat the operation as splitting the edge $(u,v)$ into $(u,d_0)$ and $(d_0,v)$ by inserting the vertex $d_0$ in between $u$ and $v$ in the tree $\mathcal{P}$ as a leaf (this is always possible). Then, we can do standard binary tree rotations to re-establish the heap-order invariant (here we have to also carefully recompute the new fields we introduce but this can again be done in $O(1)$ time per rotation). It is not hard to see that after $O(\log n)$ tree rotations in expectation, the heap-order is re-established and $d_0$ is at new root of $\mathcal{P}$. It remains to remove $d_0$ and make $left_{\mathcal{P}}(d_0)$ and $right_{\mathcal{P}}(d_0)$ tree roots.
+Next, let us discuss the implementation of the operation $\textsc{AddCost}(v, \Delta)$ which is given in pseudo-code above. The first for-loop of this algorithm ensures that we can compute $mincost(v)$ and $cost(v)$ using the formulas described above. This is ensured walking down the path from the root of $v$ to $v$ and whenever we walk to the left, we make sure to increase all costs in the right subtree by adding $\Delta$ to root of the right subtree $r$ in the form of adding it to $\Delta min(r)$. On the vertices along the path it updates the costs by using the $\Delta cost(\cdot)$ fields. We call this state \emph{value-guaranteeing}.
+
+While after the first for-loop the values can be computed efficiently, we might now be in the situation that $\Delta min(w)$ is negative for non-root vertices or that $\Delta cost(w)$ is negative for any vertex. We recover through the second for-loop that at each vertex on the tree path from $v$ to its root first computes the correct minimum in the subtree again (using the helper variable $min$) and then adjusts all values in its left/right subtree and its own fields. Since we argued that $v$ is at expected depth $O(\log(n)$, it is not hard to see that this operation can be implemented in expected $O(\log n)$ time.
+
+To implement the operation $\textsc{FindMin}(v)$ efficiently, we can use binary search to visit a child $w$ (the left one if both are eligible) where $mincost(v) = mincost(w)$. Once no such child exists, we arrived at a minima. It is not hard to see that each $mincost(w)$ can be found in $O(1)$ given the $mincost$ of its parent. Thus, one can implement $\textsc{FindMin}(v)$ again in $O(\log n)$ expected time.
+
+\paragraph{Implementing $\textsc{Cut}(u,v)$.} Let us first assume that we have a dummy node $d_0$ with $ranNum(d_0) = 0$ in the vertex set. The trick is to first treat the operation as splitting the edge $(u,v)$ into $(u,d_0)$ and $(d_0,v)$ by inserting the vertex $d_0$ in between $u$ and $v$ in the tree $\mathcal{P}$ as a leaf (this is always possible). Then, we can do standard binary tree rotations to re-establish the heap-order invariant (see \Cref{fig:binaryTreeRotation}). It is not hard to see that after $O(\log n)$ tree rotations in expectation, the heap-order is re-established and $d_0$ is at new root of $\mathcal{P}$. It remains to remove $d_0$ and make $left_{\mathcal{P}}(d_0)$ and $right_{\mathcal{P}}(d_0)$ tree roots.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[scale=0.2]{./fig/PathCutOperation_lectureDynamicTree.jpeg}
     \caption{For $\textsc{Cut}(u,v)$, we insert a vertex $d_0$ as a leaf of either $u$ or $v$ to formally split $(u,v)$ into $(u,d_0)$ and $(d_0,v)$ (this is shown on the left). While this preserves that Search-Property, it will violate the Heap-Order. Thus, we need to use tree rotations (shown on the left) to push $d_0$ to the top of the tree $\mathcal{P}$ (the arrow between the tree rotations should point in both ways).}
+    \label{fig:binaryTreeRotation}
 \end{figure}
 
-Implementing $\textsc{Link}(u,v)$ could be done by reversing the process described above. We choose however a slightly different strategy: we insert a vertex $d_{\infty}$ with $ranNum(d_{\infty}) = n^{100}$ and make it a right child of $u$. We then find the root $r$ of the tree over the path containing $v$ (as a tail). Finally, we make $r$ a right child of $d_{\infty}$. It remains to use tree rotations to make $d_{\infty}$ a leaf in the tree.  Once this is accomplished, one can simply remove $d_{\infty}$ from the tree entirely (which can be seen as un-splitting two edges into $(u,v)$).  
+To ensure that the fields are correctly adjusted, we can make the $\Delta min(\cdot)$ values of the two vertices that are rotated equal to zero while ensuring that the tree is still \emph{value-guaranteeing} by changing the $\Delta min(\cdot)$ fields of the (at most 3) roots of the subtrees to be rotated, and adapting the $\Delta cost(\cdot)$ fields of the two vertices to be rotated. Then, after the rotation, it is not hard to see that the tree is still \emph{value-guaranteeing} and that the procedure applied in the second for-loop of the operation $\textsc{AddCost}(v, \Delta)$ can then just be applied to the two rotated vertices and the roots of their subtrees. This ensures that the fields are maintained correctly. All of these operations can be implemented in $O(1)$ time per tree rotation.
+
+\paragraph{Implementing $\textsc{Link}(u,v)$.} Implementing $\textsc{Link}(u,v)$ could be done by reversing the process described above. We choose however a slightly different strategy: we insert a vertex $d_{\infty}$ with $ranNum(d_{\infty}) = n^{100}$ and make it a right child of $u$. We then find the root $r$ of the tree over the path containing $v$ (as a tail). Finally, we make $r$ a right child of $d_{\infty}$. It remains to use tree rotations to make $d_{\infty}$ a leaf in the tree.  Once this is accomplished, one can simply remove $d_{\infty}$ from the tree entirely (which can be seen as un-splitting two edges into $(u,v)$).  
 
 \paragraph{Notes.} The operations $\textsc{Link}/ \textsc{Cut}$ can be implemented for almost all Balanced Binary Search Trees (especially the ones you have seen in your first courses on data structures). Thus, it is not hard to get a $O(\log n)$ worst-case time bound for all operations discussed above.
 
@@ -95,7 +129,7 @@ We now use the result from last section as a black box to obtain \Cref{thm:mainT
 
 \paragraph{Path Decomposition.} For each rooted tree $T$, the idea is to decompose $T$ into paths. In particular, we decompose each $T$ into a collection of vertex-disjoint paths $P_1, P_2, \dots, P_k$ such that each internal vertex $v$ in $T$ has exactly one incoming edge in some $P_i$. We call the edges on some $P_i$  \emph{solid} edges and say that the other edges are \emph{dashed}. 
 
-We maintain the paths $P_1, P_2, \dots, P_k$ using the data structure described in the last section. To avoid confusion, we use the prefix $P$ when we invoke operations of the path data structure, for example $\textsc{PFindRoot}(v)$ finds the root of $v$ in the path graph consisting of all the $P_i$'s.
+We maintain the paths $P_1, P_2, \dots, P_k$ using the data structure described in the last section. To avoid confusion, we use the prefix $P$ when we invoke operations of the path data structure, for example $\textsc{PFindRoot}(v)$ finds the root of $v$ in the path graph $P_i$ where $v \in P_i$.
 
 \begin{figure}[!ht]
     \centering
@@ -103,7 +137,7 @@ We maintain the paths $P_1, P_2, \dots, P_k$ using the data structure described 
     \caption{The dashed edges are the edges not on any path $P_i$. The collection of (non-empty) paths $P_1, P_2, \dots, P_k$ can be seen to be the maximal path segments of solid edges.}
 \end{figure}
 
-\paragraph{The $\textsc{Expose}(v)$ Operation.} We now discuss the most important operation of the data structure that will be used by all other operations internally: the operation $\textsc{Expose}(v)$. This operation flips solid/dashed edges such that after the procedure the path from $v$ to its tree root in $G$ is solid (possibly as a subpath in the path collection). Below you can find an implementation of the procedure $\textsc{Expose}(v)$. 
+\paragraph{The $\textsc{Expose}(v)$ Operation.} We start by discussing the most important operation of the data structure that will be used by all other operations internally: the operation $\textsc{Expose}(v)$. This operation flips solid/dashed edges such that after the procedure the path from $v$ to its tree root in $G$ is solid (possibly as a subpath in the path collection). Below you can find an implementation of the procedure $\textsc{Expose}(v)$. 
 
 \begin{algorithm}
   \SetAlgoLined
